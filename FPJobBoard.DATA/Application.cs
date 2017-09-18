@@ -23,5 +23,6 @@ namespace FPJobBoard.DATA
         public string ResumeFilename { get; set; }
     
         public virtual OpenPosition OpenPosition { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -54,6 +54,9 @@
     <Compile Include="Application.cs">
       <DependentUpon>FPJobBoardTables.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>FPJobBoardTables.tt</DependentUpon>
+    </Compile>
     <Compile Include="FPJobBoardTables.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

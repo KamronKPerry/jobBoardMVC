@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FPJobBoardModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FPJobBoardModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Applications">
           <Key>
             <PropertyRef Name="ApplicationID" />
@@ -13,9 +13,28 @@
           <Property Name="OpenPositionID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ApplicationDate" Type="date" Nullable="false" />
-          <Property Name="ManagerNotes" Type="varchar" MaxLength="200" />
+          <Property Name="ManagerNotes" Type="varchar" MaxLength="2000" />
           <Property Name="IsDeclined" Type="bit" Nullable="false" />
           <Property Name="ResumeFilename" Type="varchar" MaxLength="75" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
@@ -44,6 +63,18 @@
           <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="JobDescription" Type="varchar(max)" />
         </EntityType>
+        <Association Name="FK_Applications_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Applications_OpenPositions">
           <End Role="OpenPositions" Type="Self.OpenPositions" Multiplicity="1" />
           <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
@@ -82,9 +113,14 @@
         </Association>
         <EntityContainer Name="FPJobBoardModelStoreContainer">
           <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OpenPositions" EntityType="Self.OpenPositions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Applications_AspNetUsers" Association="Self.FK_Applications_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
           <AssociationSet Name="FK_Applications_OpenPositions" Association="Self.FK_Applications_OpenPositions">
             <End Role="OpenPositions" EntitySet="OpenPositions" />
             <End Role="Applications" EntitySet="Applications" />
@@ -98,8 +134,7 @@
             <End Role="OpenPositions" EntitySet="OpenPositions" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FPJobBoardModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -111,10 +146,11 @@
           <Property Name="OpenPositionID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ManagerNotes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ManagerNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="IsDeclined" Type="Boolean" Nullable="false" />
           <Property Name="ResumeFilename" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="OpenPosition" Relationship="Self.FK_Applications_OpenPositions" FromRole="Applications" ToRole="OpenPositions" />
+          <NavigationProperty Name="AspNetUser" Relationship="FPJobBoardModel.FK_Applications_AspNetUsers" FromRole="Application" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -201,7 +237,44 @@
             <End Role="Positions" EntitySet="Positions" />
             <End Role="OpenPositions" EntitySet="OpenPositions" />
           </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="FPJobBoardModel.AspNetUser" />
+          <AssociationSet Name="FK_Applications_AspNetUsers" Association="FPJobBoardModel.FK_Applications_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Application" EntitySet="Applications" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Applications" Relationship="FPJobBoardModel.FK_Applications_AspNetUsers" FromRole="AspNetUser" ToRole="Application" />
+        </EntityType>
+        <Association Name="FK_Applications_AspNetUsers">
+          <End Type="FPJobBoardModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="FPJobBoardModel.Application" Role="Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -248,6 +321,26 @@
                 <ScalarProperty Name="PositionID" ColumnName="PositionID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="JobDescription" ColumnName="JobDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="FPJobBoardModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

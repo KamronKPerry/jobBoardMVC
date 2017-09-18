@@ -168,8 +168,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OpenPositionsController.cs" />
+    <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Global.asax.cs">
@@ -183,14 +187,49 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="_Archive\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\business-casual.css" />
+    <Content Include="Content\Images\bg.jpg" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\Images\intro-pic.jpg" />
+    <Content Include="Content\Images\slide-1.jpg" />
+    <Content Include="Content\Images\slide-2.jpg" />
+    <Content Include="Content\Images\slide-3.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\about.html" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\blog.html" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\contact.html" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\css\business-casual.css" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\gulpfile.js" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\img\bg.jpg" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\img\intro-pic.jpg" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\img\slide-1.jpg" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\img\slide-2.jpg" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\img\slide-3.jpg" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\index.html" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\css\bootstrap.css" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\css\bootstrap.min.css" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\js\bootstrap.js" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\bootstrap\js\bootstrap.min.js" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\jquery\jquery.js" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\jquery\jquery.min.js" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\popper\popper.js" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\vendor\popper\popper.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -248,6 +287,31 @@
     <Content Include="Views\RolesAdmin\Delete.cshtml" />
     <Content Include="Views\RolesAdmin\Create.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\.gitignore" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\.travis.yml" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\LICENSE" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\package.json" />
+    <Content Include="_Archive\startbootstrap-business-casual-gh-pages\README.md" />
+    <Content Include="Views\Applications\Create.cshtml" />
+    <Content Include="Views\Applications\Delete.cshtml" />
+    <Content Include="Views\Applications\Details.cshtml" />
+    <Content Include="Views\Applications\Edit.cshtml" />
+    <Content Include="Views\Applications\Index.cshtml" />
+    <Content Include="Views\Locations\Create.cshtml" />
+    <Content Include="Views\Locations\Delete.cshtml" />
+    <Content Include="Views\Locations\Details.cshtml" />
+    <Content Include="Views\Locations\Edit.cshtml" />
+    <Content Include="Views\Locations\Index.cshtml" />
+    <Content Include="Views\OpenPositions\Create.cshtml" />
+    <Content Include="Views\OpenPositions\Delete.cshtml" />
+    <Content Include="Views\OpenPositions\Details.cshtml" />
+    <Content Include="Views\OpenPositions\Edit.cshtml" />
+    <Content Include="Views\OpenPositions\Index.cshtml" />
+    <Content Include="Views\Positions\Create.cshtml" />
+    <Content Include="Views\Positions\Delete.cshtml" />
+    <Content Include="Views\Positions\Details.cshtml" />
+    <Content Include="Views\Positions\Edit.cshtml" />
+    <Content Include="Views\Positions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -259,6 +323,12 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FPJobBoard.DATA\FPJobBoard.DATA.csproj">
+      <Project>{73a10b80-1065-4740-b9e8-ccf7edb5a80e}</Project>
+      <Name>FPJobBoard.DATA</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

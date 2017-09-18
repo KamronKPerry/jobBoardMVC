@@ -72,6 +72,10 @@
     <Compile Include="Location.cs">
       <DependentUpon>FPJobBoardTables.tt</DependentUpon>
     </Compile>
+    <Compile Include="Metadata\ApplicationMetadata.cs" />
+    <Compile Include="Metadata\LocationMetadata.cs" />
+    <Compile Include="Metadata\OpenPositionMetadata.cs" />
+    <Compile Include="Metadata\PositionMetadata.cs" />
     <Compile Include="OpenPosition.cs">
       <DependentUpon>FPJobBoardTables.tt</DependentUpon>
     </Compile>
@@ -80,9 +84,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Metadata\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EntityDeploy Include="FPJobBoardTables.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

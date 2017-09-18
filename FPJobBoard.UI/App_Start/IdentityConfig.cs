@@ -114,6 +114,7 @@ namespace FPJobBoard.UI.Models
         public static void InitializeIdentityForEF(ApplicationDbContext db) {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            //NOTE: Changed default user creation
             const string name = "admin@JobBoard.com";
             const string password = "P@ssw0rd";
             const string roleName = "Admin";

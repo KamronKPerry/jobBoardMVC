@@ -61,6 +61,11 @@ namespace FPJobBoard.UI.Models
 
     public class RegisterViewModel
     {
+        //NOTE: Added First&Last Name to AccountViewModel to Require on Signup
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

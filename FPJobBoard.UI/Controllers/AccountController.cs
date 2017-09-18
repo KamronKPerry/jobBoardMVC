@@ -148,8 +148,9 @@ namespace FPJobBoard.UI.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            {   
+                //NOTE: Added First&Last Name for register user creation
+                var user = new ApplicationUser { FirstName=model.FirstName, LastName=model.LastName, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -118,7 +118,7 @@ namespace FPJobBoard.UI.Models
             const string name = "admin@JobBoard.com";
             const string password = "P@ssw0rd";
             const string roleName = "Admin";
-
+            //Super@User.com Gr@nt3d
             //Create Role Admin if it does not exist
             var role = roleManager.FindByName(roleName);
             if (role == null) {

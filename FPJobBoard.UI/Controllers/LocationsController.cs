@@ -17,7 +17,8 @@ namespace FPJobBoard.UI.Controllers
         // GET: Locations
         public ActionResult Index()
         {
-            return View(db.Locations.ToList());
+            var locations = db.Locations.Include(l => l.AspNetUser);
+            return View(locations.ToList());
         }
 
         // GET: Locations/Details/5
@@ -34,10 +35,12 @@ namespace FPJobBoard.UI.Controllers
             }
             return View(location);
         }
-
+        //.Include(x=> x.AspNetRoles.Where(y => y.Name == "Manager").ToString())
         // GET: Locations/Create
         public ActionResult Create()
         {
+            var collection = db.AspNetUsers;
+            ViewBag.ManagerID = new SelectList(collection, "Id", "FullName");
             return View();
         }
 
@@ -54,7 +57,9 @@ namespace FPJobBoard.UI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+           //ViewBag.ManagerID = new SelectList(db.AspNetUsers.Where(x => x.AspNetRoles. == "Manager").ToString(), "Id", "FullName", location.ManagerID);
 
+           ViewBag.ManagerID = new SelectList(db.AspNetUsers, "Id", "FullName", location.ManagerID);
             return View(location);
         }
 
@@ -70,6 +75,7 @@ namespace FPJobBoard.UI.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ManagerID = new SelectList(db.AspNetUsers, "Id", "FullName", location.ManagerID);
             return View(location);
         }
 
@@ -86,6 +92,7 @@ namespace FPJobBoard.UI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.ManagerID = new SelectList(db.AspNetUsers, "Id", "FullName", location.ManagerID);
             return View(location);
         }
 

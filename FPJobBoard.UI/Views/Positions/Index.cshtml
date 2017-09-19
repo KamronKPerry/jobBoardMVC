@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<FPJobBoard.DATA.Position>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Positions";
 }
 
-<h2>Index</h2>
+<h2><strong>@ViewBag.Title</strong></h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <strong>
+        @Html.ActionLink("New Position", "Create", "Positions", null, new { @class = "table-text" })
+    </strong></p>
 <table class="table">
     <tr>
         <th>

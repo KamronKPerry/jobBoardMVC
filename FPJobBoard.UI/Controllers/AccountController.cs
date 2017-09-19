@@ -150,7 +150,7 @@ namespace FPJobBoard.UI.Controllers
             if (ModelState.IsValid)
             {   
                 //NOTE: Added First&Last Name for register user creation
-                var user = new ApplicationUser { FirstName=model.FirstName, LastName=model.LastName, UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { FirstName=model.FirstName, LastName=model.LastName, ResumeFileName=model.ResumeFileName, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

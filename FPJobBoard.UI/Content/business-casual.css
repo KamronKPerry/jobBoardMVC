@@ -12,7 +12,8 @@ body {
     background-size: cover;
     -o-background-size: cover;
     color:white;
-    text-shadow:1px 1px 1px white;
+    text-shadow:1px 1px 1px grey;
+    font-size: calc(.26vw + .36vh + 1vmin);
 }
 
 h1, h2, h3, h4, h5, h6, .text-heading {
@@ -66,4 +67,26 @@ hr.divider {
 .map-container iframe.clicked {
   pointer-events: auto;
 }
-
+.nav-hover ul{
+    visibility:hidden;
+}
+.nav-hover:hover ul{
+    display:flex;
+    flex-direction: column;
+    visibility: visible;
+}
+.nav-item{
+    width:50%;
+}
+.table-text{
+    color:lightblue;
+}
+.table-text:hover{
+    color:orange;
+}
+td a{
+    color:lightblue;
+}
+td a:hover{
+    color:orange;
+}

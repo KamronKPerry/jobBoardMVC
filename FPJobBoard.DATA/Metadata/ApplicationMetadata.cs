@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace FPJobBoard.DATA.Metadata
+namespace FPJobBoard.DATA//.Metadata
 {
     public class ApplicationMetadata
     {

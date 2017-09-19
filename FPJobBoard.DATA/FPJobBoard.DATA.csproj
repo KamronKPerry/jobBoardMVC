@@ -54,6 +54,9 @@
     <Compile Include="Application.cs">
       <DependentUpon>FPJobBoardTables.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>FPJobBoardTables.tt</DependentUpon>
+    </Compile>
     <Compile Include="AspNetUser.cs">
       <DependentUpon>FPJobBoardTables.tt</DependentUpon>
     </Compile>
@@ -76,6 +79,7 @@
       <DependentUpon>FPJobBoardTables.tt</DependentUpon>
     </Compile>
     <Compile Include="Metadata\ApplicationMetadata.cs" />
+    <Compile Include="Metadata\AspNetUserMetadata.cs" />
     <Compile Include="Metadata\LocationMetadata.cs" />
     <Compile Include="Metadata\OpenPositionMetadata.cs" />
     <Compile Include="Metadata\PositionMetadata.cs" />

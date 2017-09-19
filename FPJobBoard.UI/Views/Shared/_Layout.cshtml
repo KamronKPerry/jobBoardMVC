@@ -27,9 +27,15 @@
                             <span class="sr-only">(current)</span>
                         @*</a>*@
                     </li>
-                    <li class="nav-item px-lg-4">
+                    <li class="nav-item px-lg-4 nav-link text-uppercase text-expanded nav-hover">
                         @Html.ActionLink("About","About","Home",null, new { @class = "nav-link text-uppercase text-expanded" })
                         @*<a class="nav-link text-uppercase text-expanded" href="@Url.Action("About","Home")">About</a>*@
+                        <ul>
+                            <li class="nav-item px-lg-4">@Html.ActionLink("Locations","Index","Locations",null, new { @class = "nav-link text-uppercase text-expanded" })</li>
+                            <li class="nav-item px-lg-4">@Html.ActionLink("Positions", "Index", "Positions", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
+                            <li class="nav-item px-lg-4">@Html.ActionLink("Applciations", "Index", "Applications", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
+                            <li class="nav-item px-lg-4">@Html.ActionLink("Open Positions", "Index", "OpenPositions", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
+                        </ul>
                     </li>
                     @*<li class="nav-item px-lg-4">
                         @Html.ActionLink("Blog","Blog","Home",null, new { @class = "nav-link text-uppercase text-expanded" })
@@ -41,9 +47,12 @@
                     </li>
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li class="nav-item px-lg-4">@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin",null, new { @class= "nav-link text-uppercase text-expanded"})</li>
-                        <li class="nav-item px-lg-4">@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin",null, new { @class = "nav-link text-uppercase text-expanded" })</li>
-
+                        <li class="nav-item px-lg-4 nav-link text-uppercase text-expanded nav-hover"> Admin
+                            <ul>
+                                <li class="nav-item px-lg-4">@Html.ActionLink("RolesAdmin", "Index", "RolesAdmin", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
+                                <li class="nav-item px-lg-4">@Html.ActionLink("UsersAdmin", "Index", "UsersAdmin", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
+                            </ul>
+                        </li>
                     }
                     <li class="nav-item px-lg-4">
                         @Html.Partial("_LoginPartial")
@@ -66,6 +75,6 @@
         @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/popper.min.js"></script>
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

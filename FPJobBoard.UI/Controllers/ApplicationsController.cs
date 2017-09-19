@@ -17,7 +17,7 @@ namespace FPJobBoard.UI.Controllers
         // GET: Applications
         public ActionResult Index()
         {
-            var applications = db.Applications.Include(a => a.OpenPosition);
+            var applications = db.Applications.Include(a => a.OpenPosition).Include(a => a.AspNetUser);
             return View(applications.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace FPJobBoard.UI.Controllers
         public ActionResult Create()
         {
             ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "OpenPositionID");
+            ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "FirstName");
             return View();
         }
 
@@ -58,6 +59,7 @@ namespace FPJobBoard.UI.Controllers
             }
 
             ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "OpenPositionID", application.OpenPositionID);
+            ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "FirstName", application.UserID);
             return View(application);
         }
 
@@ -74,6 +76,7 @@ namespace FPJobBoard.UI.Controllers
                 return HttpNotFound();
             }
             ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "OpenPositionID", application.OpenPositionID);
+            ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "FirstName", application.UserID);
             return View(application);
         }
 
@@ -91,6 +94,7 @@ namespace FPJobBoard.UI.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "OpenPositionID", application.OpenPositionID);
+            ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "FirstName", application.UserID);
             return View(application);
         }
 

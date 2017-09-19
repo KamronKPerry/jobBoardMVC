@@ -69,6 +69,9 @@ namespace FPJobBoard.UI.Models
         [Display(Name ="Last Name")]
         public string LastName { get; set; }
         [Required]
+        [Display(Name ="Resume")]
+        public string ResumeFileName { get; set; }
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

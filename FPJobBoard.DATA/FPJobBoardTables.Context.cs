@@ -30,5 +30,6 @@ namespace FPJobBoard.DATA
         public virtual DbSet<OpenPosition> OpenPositions { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
     }
 }

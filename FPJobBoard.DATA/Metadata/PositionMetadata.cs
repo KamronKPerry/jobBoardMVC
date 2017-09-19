@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace FPJobBoard.DATA.Metadata
+namespace FPJobBoard.DATA//.Metadata
 {
     public class PositionMetadata
     {
         [Display(Name ="Job Title")]
         [Required(ErrorMessage ="*Required")]
+        [StringLength(50,ErrorMessage ="*Max 50 Characters")]
         public string Title { get; set; }
         [Display(Name ="Job Description")]
         public string JobDescription { get; set; }

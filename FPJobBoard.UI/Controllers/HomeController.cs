@@ -9,7 +9,7 @@ namespace FPJobBoard.UI.Controllers
             return View();
         }
 
-        [Authorize]
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FPJobBoard.DATA.OpenPosition>
-
+@using Microsoft.AspNet.Identity;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Available Positions";
 }
 
 <h2>Index</h2>
@@ -11,11 +11,13 @@
 </p>
 <table class="table">
     <tr>
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.IsOpen)
+            </th>}
         <th>
-            @Html.DisplayNameFor(model => model.IsOpen)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location.StoreNumber)
+            @Html.DisplayNameFor(model => model.Location.LocationName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Position.Title)
@@ -23,23 +25,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+            { 
         <td>
             @Html.DisplayFor(modelItem => item.IsOpen)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location.StoreNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Position.Title)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OpenPositionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OpenPositionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OpenPositionID })
-        </td>
-    </tr>
-}
+        </td>}
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.LocationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position.Title)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.OpenPositionID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.OpenPositionID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.OpenPositionID })
+            </td>
+        </tr>
+    }
 
 </table>

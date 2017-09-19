@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FPJobBoard.DATA;
+using Microsoft.AspNet.Identity;
 
 namespace FPJobBoard.UI.Controllers
 {
@@ -17,6 +18,12 @@ namespace FPJobBoard.UI.Controllers
         // GET: OpenPositions
         public ActionResult Index()
         {
+            var user = User.Identity.GetUserId();
+            if (User.IsInRole("Manager"))
+            {
+                var locationpositions = (db.OpenPositions.Include(y => y.Location).Include(y => y.Position)).Where(y => y.Location.ManagerID == user);
+                return View(locationpositions.ToList());
+            }
             var openPositions = db.OpenPositions.Include(o => o.Location).Include(o => o.Position);
             return View(openPositions.ToList());
         }
@@ -37,9 +44,17 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: OpenPositions/Create
+        [Authorize(Roles ="Admin,Manager")]
         public ActionResult Create()
         {
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "StoreNumber");
+            var id = User.Identity.GetUserId();
+            var locations = from l in db.Locations where l.ManagerID == id select l;
+            if (User.IsInRole("Manager"))
+            {
+                ViewBag.LocationID = new SelectList(locations, "LocationID", "LocationName");
+            }
+            else { 
+            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");}
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Title");
             return View();
         }
@@ -49,6 +64,7 @@ namespace FPJobBoard.UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Create([Bind(Include = "OpenPositionID,PositionID,LocationID,IsOpen")] OpenPosition openPosition)
         {
             if (ModelState.IsValid)
@@ -58,12 +74,22 @@ namespace FPJobBoard.UI.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "StoreNumber", openPosition.LocationID);
+            var id = User.Identity.GetUserId();
+            var locations = from l in db.Locations where l.ManagerID == id select l;
+            if (User.IsInRole("Manager"))
+            {
+                ViewBag.LocationID = new SelectList(locations, "LocationID", "LocationName");
+            }
+            else
+            {
+                ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            }
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Title", openPosition.PositionID);
             return View(openPosition);
         }
 
         // GET: OpenPositions/Edit/5
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -75,7 +101,16 @@ namespace FPJobBoard.UI.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "StoreNumber", openPosition.LocationID);
+            var user = User.Identity.GetUserId();
+            var locations = from l in db.Locations where l.ManagerID == user select l;
+            if (User.IsInRole("Manager"))
+            {
+                ViewBag.LocationID = new SelectList(locations, "LocationID", "LocationName");
+            }
+            else
+            {
+                ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            }
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Title", openPosition.PositionID);
             return View(openPosition);
         }
@@ -85,6 +120,7 @@ namespace FPJobBoard.UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Edit([Bind(Include = "OpenPositionID,PositionID,LocationID,IsOpen")] OpenPosition openPosition)
         {
             if (ModelState.IsValid)
@@ -93,12 +129,22 @@ namespace FPJobBoard.UI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "StoreNumber", openPosition.LocationID);
+            var user = User.Identity.GetUserId();
+            var locations = from l in db.Locations where l.ManagerID == user select l;
+            if (User.IsInRole("Manager"))
+            {
+                ViewBag.LocationID = new SelectList(locations, "LocationID", "LocationName");
+            }
+            else
+            {
+                ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            }
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Title", openPosition.PositionID);
             return View(openPosition);
         }
 
         // GET: OpenPositions/Delete/5
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -116,6 +162,7 @@ namespace FPJobBoard.UI.Controllers
         // POST: OpenPositions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             OpenPosition openPosition = db.OpenPositions.Find(id);

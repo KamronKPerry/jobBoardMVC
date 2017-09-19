@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FPJobBoard.DATA;
+using Microsoft.AspNet.Identity;
+
 
 namespace FPJobBoard.UI.Controllers
 {

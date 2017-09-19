@@ -22,6 +22,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: Locations/Details/5
+        [Authorize(Roles ="Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,10 +38,14 @@ namespace FPJobBoard.UI.Controllers
         }
         //.Include(x=> x.AspNetRoles.Where(y => y.Name == "Manager").ToString())
         // GET: Locations/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            var collection = db.AspNetUsers;
-            ViewBag.ManagerID = new SelectList(collection, "Id", "FullName");
+
+            //var roles = db.AspNetRoles.Where(x => x.Name.ToString() == "Manager");
+                                /*taking user in V where user of role has any role name really equal to "Manager"*/
+            var managerUsers = from u in db.AspNetUsers where u.AspNetRoles.Any(r => r.Name == "Manager") select u;
+            ViewBag.ManagerID = new SelectList(managerUsers, "Id", "FullName");
             return View();
         }
 
@@ -49,6 +54,7 @@ namespace FPJobBoard.UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "LocationID,StoreNumber,City,State,ManagerID")] Location location)
         {
             if (ModelState.IsValid)
@@ -57,13 +63,13 @@ namespace FPJobBoard.UI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-           //ViewBag.ManagerID = new SelectList(db.AspNetUsers.Where(x => x.AspNetRoles. == "Manager").ToString(), "Id", "FullName", location.ManagerID);
 
            ViewBag.ManagerID = new SelectList(db.AspNetUsers, "Id", "FullName", location.ManagerID);
             return View(location);
         }
 
         // GET: Locations/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -84,6 +90,7 @@ namespace FPJobBoard.UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "LocationID,StoreNumber,City,State,ManagerID")] Location location)
         {
             if (ModelState.IsValid)
@@ -97,6 +104,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: Locations/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -114,6 +122,7 @@ namespace FPJobBoard.UI.Controllers
         // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Location location = db.Locations.Find(id);

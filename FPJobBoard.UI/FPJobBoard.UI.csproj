@@ -179,6 +179,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709182026428_InitialCreate.cs" />
+    <Compile Include="Migrations\201709182026428_InitialCreate.Designer.cs">
+      <DependentUpon>201709182026428_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709191902347_ResumeFileName.cs" />
+    <Compile Include="Migrations\201709191902347_ResumeFileName.Designer.cs">
+      <DependentUpon>201709191902347_ResumeFileName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -329,6 +338,14 @@
       <Project>{73a10b80-1065-4740-b9e8-ccf7edb5a80e}</Project>
       <Name>FPJobBoard.DATA</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709182026428_InitialCreate.resx">
+      <DependentUpon>201709182026428_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709191902347_ResumeFileName.resx">
+      <DependentUpon>201709191902347_ResumeFileName.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

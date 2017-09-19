@@ -90,3 +90,9 @@ td a{
 td a:hover{
     color:orange;
 }
+p a{
+    color:lightblue;
+}
+p a:hover{
+    color:orange;
+}

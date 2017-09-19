@@ -15,7 +15,7 @@
         <EntityTypeShape EntityType="FPJobBoardModel.AspNetUser" Width="1.5" PointX="8" PointY="0.75" />
         <AssociationConnector Association="FPJobBoardModel.FK_Applications_AspNetUsers" />
         <AssociationConnector Association="FPJobBoardModel.FK_Locations_AspNetUsers" />
-        <EntityTypeShape EntityType="FPJobBoardModel.AspNetRole" PointX="4.875" PointY="4.875" Width="1.5" />
+        <EntityTypeShape EntityType="FPJobBoardModel.AspNetRole" PointX="4.75" PointY="5.125" Width="1.5" IsExpanded="true" />
         <AssociationConnector Association="FPJobBoardModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>

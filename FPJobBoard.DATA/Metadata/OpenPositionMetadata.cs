@@ -10,11 +10,16 @@ namespace FPJobBoard.DATA//.Metadata
 {
     public class OpenPositionMetadata
     {
+        
         public int PositionID { get; set; }
         public int LocationID { get; set; }
         [Display(Name = "Is Hiring?")]
         public bool IsOpen { get; set; }
     }
     [MetadataType(typeof(OpenPositionMetadata))]
-    public partial class OpenPosition { }
+    public partial class OpenPosition {
+        [Display(Name ="Position")]
+    public string PositionName { get { return Position.Title + " - " + Location.LocationName; } }
+            
+            }
 }

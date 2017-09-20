@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FPJobBoard.UI.Controllers
 {
+    [Authorize]
     public class ApplicationsController : Controller
     {
         private FPJobBoardEntities db = new FPJobBoardEntities();
@@ -19,8 +20,27 @@ namespace FPJobBoard.UI.Controllers
         // GET: Applications
         public ActionResult Index()
         {
-            var applications = db.Applications.Include(a => a.OpenPosition).Include(a => a.AspNetUser);
-            return View(applications.ToList());
+            var user = User.Identity.GetUserId();
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.Title = "All Applications";
+                var applications = db.Applications.Include(a => a.OpenPosition).Include(a => a.AspNetUser);
+                return View(applications.ToList());
+            }
+            else if (User.IsInRole("Manager"))
+            {
+                ViewBag.Title = "Applications to Your Store";
+                var locations = from l in db.Locations where l.ManagerID == user select l;
+                //var specLoc = from z in db.Locations where z.LocationID == locations select z;
+                //var positions = from p in db.OpenPositions where p.LocationID.ToString() == locations.ToString() select p;
+                // var storeApps = from a in db.Applications where ( from p in db.OpenPositions where p.LocationID == (from l in db.Locations where l.ManagerID == user select l.LocationID ) select p) select a;
+                var storeApplications = (db.Applications.Where(a => a.OpenPosition.Location.ManagerID == user));//.Include(a => a.OpenPosition).Include(a => a.AspNetUser));
+                return View(storeApplications.ToList());
+            }
+            ViewBag.Title = "Your Applications";
+            var myApplications = (db.Applications.Include(a => a.OpenPosition).Include(a => a.AspNetUser)).Where(a => a.UserID == user);
+            return View(myApplications.ToList());
+
         }
 
         // GET: Applications/Details/5
@@ -41,9 +61,11 @@ namespace FPJobBoard.UI.Controllers
         // GET: Applications/Create
         public ActionResult Create()
         {
-            ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "OpenPositionID");
-            ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "FirstName");
-            return View();
+            var user = User.Identity.GetUserId();
+
+            ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "PositionName");
+            ViewBag.UserID = new SelectList(db.AspNetUsers.Where(y => y.Id == user), "Id", "FullName");
+            return View(new Application());
         }
 
         // POST: Applications/Create
@@ -53,15 +75,18 @@ namespace FPJobBoard.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ApplicationID,OpenPositionID,UserID,ApplicationDate,ManagerNotes,IsDeclined,ResumeFilename")] Application application)
         {
+            var user = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
+                application.ApplicationDate = DateTime.Now;
                 db.Applications.Add(application);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "OpenPositionID", application.OpenPositionID);
-            ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "FirstName", application.UserID);
+            ViewBag.UserID = new SelectList(db.AspNetUsers.Where(y => y.Id == user), "Id", "FirstName", application.UserID);
             return View(application);
         }
 

@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<FPJobBoard.DATA.OpenPosition>
 @using Microsoft.AspNet.Identity;
-@{
-    ViewBag.Title = "Available Positions";
+
+<h2><strong>@ViewBag.Title</strong></h2>
+@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
@@ -22,17 +22,21 @@
         <th>
             @Html.DisplayNameFor(model => model.Position.Title)
         </th>
-        <th></th>
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            <th></th>
+        }
+
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            { 
-        <td>
-            @Html.DisplayFor(modelItem => item.IsOpen)
-        </td>}
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsOpen)
+                </td>}
 
             <td>
                 @Html.DisplayFor(modelItem => item.Location.LocationName)
@@ -41,11 +45,14 @@
                 @Html.DisplayFor(modelItem => item.Position.Title)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.OpenPositionID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.OpenPositionID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.OpenPositionID })
+                
+                @Html.ActionLink("Apply", "Details", new { id = item.OpenPositionID })
+                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {@:|
+                @Html.ActionLink("Edit", "Edit", new { id = item.OpenPositionID }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = item.OpenPositionID })}
             </td>
         </tr>
-    }
+                }
 
 </table>

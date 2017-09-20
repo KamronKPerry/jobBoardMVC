@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace FPJobBoard.UI.Controllers
 {
-    [Authorize(Roles = "Admin",Users ="Super@User.com")]
+    [Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
         public UsersAdminController()

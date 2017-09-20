@@ -21,10 +21,19 @@ namespace FPJobBoard.UI.Controllers
             var user = User.Identity.GetUserId();
             if (User.IsInRole("Manager"))
             {
-                var locationpositions = (db.OpenPositions.Include(y => y.Location).Include(y => y.Position)).Where(y => y.Location.ManagerID == user);
-                return View(locationpositions.ToList());
+                ViewBag.Title = "Positions in your store";
+                var locationPositions = (db.OpenPositions.Include(y => y.Location).Include(y => y.Position)).Where(y => y.Location.ManagerID == user);
+                return View(locationPositions.ToList());
             }
-            var openPositions = db.OpenPositions.Include(o => o.Location).Include(o => o.Position);
+            else if(User.IsInRole("Admin"))
+            {
+                ViewBag.Title = "All Positions";
+            var allPositions = db.OpenPositions.Include(o => o.Location).Include(o => o.Position);
+            return View(allPositions.ToList());
+
+            }
+            ViewBag.Title = "Available Positions";
+            var openPositions = (db.OpenPositions.Include(o => o.Location).Include(o => o.Position)).Where(o => o.IsOpen == true);
             return View(openPositions.ToList());
         }
 

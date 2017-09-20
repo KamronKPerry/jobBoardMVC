@@ -145,10 +145,27 @@ namespace FPJobBoard.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model,HttpPostedFileBase ResumeFileName)
         {
             if (ModelState.IsValid)
-            {   
+            {
+                    string fileName="";
+
+                if (ResumeFileName != null)
+                {
+                    string fullFileName = ResumeFileName.FileName;
+                    string ext = fullFileName.Substring(fullFileName.LastIndexOf('.'));
+                    string goodext = ".pdf";
+                    if (goodext.Contains(ext.ToLower()))
+                    {
+                        fileName = Guid.NewGuid() + ext;
+                        ResumeFileName.SaveAs(Server.MapPath("~/Content/Resumes/" + fileName));
+                    }
+                    else
+                    {
+                        
+                    }
+                }
                 //NOTE: Added First&Last Name for register user creation
                 var user = new ApplicationUser { FirstName=model.FirstName, LastName=model.LastName, ResumeFileName=model.ResumeFileName, UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);

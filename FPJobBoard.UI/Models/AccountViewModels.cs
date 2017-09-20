@@ -61,7 +61,7 @@ namespace FPJobBoard.UI.Models
 
     public class RegisterViewModel
     {
-        //NOTE: Added First&Last Name to AccountViewModel to Require on Signup
+        //NOTE: Added First&Last Name + Resume to AccountViewModel to Require on Signup
         [Required]
         [Display(Name ="First Name")]
         public string FirstName { get; set; }

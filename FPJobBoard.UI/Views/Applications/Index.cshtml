@@ -1,11 +1,7 @@
 ﻿@model IEnumerable<FPJobBoard.DATA.Application>
 
-@{
-    ViewBag.Title = "Index";
-}
 
-<h2>Index</h2>
-
+<h2><strong>@ViewBag.Title</strong></h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -24,10 +20,10 @@
             @Html.DisplayNameFor(model => model.ResumeFilename)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OpenPosition.OpenPositionID)
+            @Html.DisplayNameFor(model => model.OpenPosition.PositionName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+            @Html.DisplayNameFor(model => model.AspNetUser.FullName)
         </th>
         <th></th>
     </tr>
@@ -40,22 +36,26 @@
         <td>
             @Html.DisplayFor(modelItem => item.ManagerNotes)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsDeclined)
+        <td>@* TODO: Words Deckined/In review instead of checkbox *@
+           @Html.DisplayFor(modelItem => item.IsDeclined)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ResumeFilename)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OpenPosition.OpenPositionID)
+            @Html.DisplayFor(modelItem => item.OpenPosition.PositionName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
+            @Html.DisplayFor(modelItem => item.AspNetUser.FullName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ApplicationID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ApplicationID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ApplicationID })
+            @Html.ActionLink("Details", "Details", new { id=item.ApplicationID })
+            @if (!User.IsInRole("Manager"))
+            {
+            @:|
+            @Html.ActionLink("Delete", "Delete", new { id = item.ApplicationID })
+            } 
         </td>
     </tr>
 }

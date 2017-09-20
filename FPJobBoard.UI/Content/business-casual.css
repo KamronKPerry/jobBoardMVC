@@ -96,3 +96,30 @@ p a{
 p a:hover{
     color:orange;
 }
+ul li ul{
+    position:absolute;
+    z-index: 5;
+    margin-left:-5%;
+}
+.nav-item{
+    width:100%;
+}
+.login-hover{
+    width:230%;
+}
+li.login-hover form ul {
+    margin-left:0;
+    }
+li.login-hover form ul li{
+    width:100%;
+}
+.login-link{
+    width:100%;    
+}
+footer div p {
+    color:rgba(0, 0, 0, 0.5);
+    margin:auto;
+} 
+footer{
+    padding:1em;
+}

@@ -29,6 +29,6 @@ namespace FPJobBoard.DATA//.Metadata
     [MetadataType(typeof(LocationMetadata))]
     public partial class Location {
         [Display(Name ="Location")]
-        public string LocationName { get { return City + " " + State; } }
+        public string LocationName { get { return City + ", " + State; } }
     }
 }

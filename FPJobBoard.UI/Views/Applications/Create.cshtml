@@ -1,10 +1,10 @@
 ﻿@model FPJobBoard.DATA.Application
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "New Application";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Title</h2>
 
 
 @using (Html.BeginForm()) 
@@ -12,8 +12,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Application</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.OpenPositionID, "OpenPositionID", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -30,33 +28,14 @@
                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ApplicationDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ApplicationDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ApplicationDate, "", new { @class = "text-danger" })
-            </div>
+        @* TODO: Figure out application date.now *@
+        @*<div class="form-group">
+        @Html.LabelFor(model => model.ApplicationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model=>model.ApplicationDate , new { htmlAttributes = new { @class = "form-control"} })
+            @Html.ValidationMessageFor(model => model.ApplicationDate, "", new { @class = "text-danger" })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ManagerNotes, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ManagerNotes, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ManagerNotes, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsDeclined, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsDeclined)
-                    @Html.ValidationMessageFor(model => model.IsDeclined, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
+    </div>*@
         <div class="form-group">
             @Html.LabelFor(model => model.ResumeFilename, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

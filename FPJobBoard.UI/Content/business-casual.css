@@ -123,3 +123,6 @@ footer div p {
 footer{
     padding:1em;
 }
+li form.navbar-right{
+    width:125%;
+}

@@ -36,6 +36,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: Positions/Create
+        [Authorize(Roles ="Admin,Manager")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +47,7 @@ namespace FPJobBoard.UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin,Manager")]
         public ActionResult Create([Bind(Include = "PositionID,Title,JobDescription")] Position position)
         {
             if (ModelState.IsValid)
@@ -59,6 +61,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: Positions/Edit/5
+        [Authorize(Roles ="Admin,Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +81,7 @@ namespace FPJobBoard.UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Edit([Bind(Include = "PositionID,Title,JobDescription")] Position position)
         {
             if (ModelState.IsValid)
@@ -90,6 +94,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: Positions/Delete/5
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +112,7 @@ namespace FPJobBoard.UI.Controllers
         // POST: Positions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             Position position = db.Positions.Find(id);

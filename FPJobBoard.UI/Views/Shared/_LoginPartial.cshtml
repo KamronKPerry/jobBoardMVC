@@ -1,11 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity
+@using FPJobBoard.UI.Models
+@using Microsoft.AspNet.Identity.Owin;
+@using Microsoft.AspNet.Identity;
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
         
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link text-uppercase text-expanded" })
+            @Html.ActionLink("Hello " + HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId()).FirstName + " " + HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId()).LastName + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link text-uppercase text-expanded" })
         <ul class="bg-faded">
             <li class="nav-item px-lg-4">
                 <a class="nav-link text-uppercase text-expanded" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
@@ -15,11 +18,11 @@
 }
 else
 {
+    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link text-uppercase text-expanded" })
 
-        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = " nav-link text-uppercase text-expanded" })
-    <ul class="bg-faded">
+    @*<ul class="bg-faded">*@
         <li class="nav-item px-lg-4 login-link">
-            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link text-uppercase text-expanded" })
+            @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = " nav-link text-uppercase text-expanded" })
         </li>
-    </ul>
+    @*</ul>*@
 }

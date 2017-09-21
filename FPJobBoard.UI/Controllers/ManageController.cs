@@ -1,7 +1,9 @@
-﻿using FPJobBoard.UI.Models;
+﻿using FPJobBoard.UI.Exceptions;
+using FPJobBoard.UI.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,6 +11,7 @@ using System.Web.Mvc;
 
 namespace FPJobBoard.UI.Controllers
 {
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -389,5 +392,51 @@ namespace FPJobBoard.UI.Controllers
         }
 
         #endregion
+        public async Task<ActionResult> NewResume(EditResumeModel model, HttpPostedFileBase ResumeFileName)
+        {
+            string fileName = "";
+
+            if (!ModelState.IsValid)
+            {
+                return View("Index",model);
+            }
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
+                if (user == null)
+                {
+                    return View("Index",model);
+                }
+                if (ResumeFileName != null)
+                {
+                    string oldFile = user.ResumeFileName;
+                    fileName = ResumeFileName.FileName;
+                    string ext = fileName.Substring(fileName.LastIndexOf('.'));
+                    string[] goodext = { ".pdf" };
+                    if (goodext.Contains(ext.ToLower()))
+                    {
+                        if (oldFile != null)
+                        {
+                            fileName = oldFile;
+                        }
+                        else
+                        {
+                            fileName = Guid.NewGuid() + ext;
+
+                        }
+                        user.ResumeFileName = fileName;
+                        ResumeFileName.SaveAs(Server.MapPath("~/Content/Resumes/" + fileName));
+                    }
+                    else
+                    {
+                        throw new InvalidFileTypeException("Invalid file type uploaded. Only .pdf files are allowed.");
+                    }
+                }
+
+            }
+            return View("Index");
+        }
+
     }
+
 }

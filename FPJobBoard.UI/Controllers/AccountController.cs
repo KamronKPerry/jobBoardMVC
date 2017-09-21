@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using FPJobBoard.UI.Exceptions;
 
 namespace FPJobBoard.UI.Controllers
 {
@@ -145,44 +146,54 @@ namespace FPJobBoard.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model,HttpPostedFileBase ResumeFileName)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase ResumeFileName)
         {
-            if (ModelState.IsValid)
+            try {
+                if (ModelState.IsValid)
+                {
+                    string fileName = "";
+
+                    if (ResumeFileName != null)
+                    {
+                        fileName = ResumeFileName.FileName;
+                        string ext = fileName.Substring(fileName.LastIndexOf('.'));
+                        string[] goodext = { ".pdf" };
+                        if (goodext.Contains(ext.ToLower()))
+                        {
+                            fileName = Guid.NewGuid() + ext;
+                            ResumeFileName.SaveAs(Server.MapPath("~/Content/Resumes/" + fileName));
+                        }
+                        else
+                        {
+                            throw new InvalidFileTypeException("Invalid file type uploaded. Only .pdf files are allowed.");
+
+                        }
+                    }
+                    //NOTE: Added First&Last Name for register user creation
+                    var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, ResumeFileName= fileName, UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                        ViewBag.Link = callbackUrl;
+                        return View("DisplayEmail");
+                    }
+                    AddErrors(result);
+                }
+
+                // If we got this far, something failed, redisplay form
+                return View(model);
+            }catch (InvalidFileTypeException ex)
             {
-                    string fileName="";
-
-                if (ResumeFileName != null)
-                {
-                    string fullFileName = ResumeFileName.FileName;
-                    string ext = fullFileName.Substring(fullFileName.LastIndexOf('.'));
-                    string goodext = ".pdf";
-                    if (goodext.Contains(ext.ToLower()))
-                    {
-                        fileName = Guid.NewGuid() + ext;
-                        ResumeFileName.SaveAs(Server.MapPath("~/Content/Resumes/" + fileName));
-                    }
-                    else
-                    {
-                        
-                    }
-                }
-                //NOTE: Added First&Last Name for register user creation
-                var user = new ApplicationUser { FirstName=model.FirstName, LastName=model.LastName, ResumeFileName=model.ResumeFileName, UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
-                }
-                AddErrors(result);
+                ViewBag.Message = "Invalid file upload attempted";
             }
-
-            // If we got this far, something failed, redisplay form
+            catch (Exception ex)
+            {
+            }
             return View(model);
-        }
+            }
 
         //
         // GET: /Account/ConfirmEmail
@@ -231,7 +242,8 @@ namespace FPJobBoard.UI.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]

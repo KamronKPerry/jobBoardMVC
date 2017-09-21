@@ -24,7 +24,13 @@ namespace FPJobBoard.UI.Models
     {
         public string Purpose { get; set; }
     }
-
+    public class EditResumeModel
+    {
+        [Required]
+        [Display(Name = "Resume")]
+        [DataType(DataType.Upload)]
+        public string ResumeFileName { get; set; }
+    }
     public class SetPasswordViewModel
     {
         [Required]

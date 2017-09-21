@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace FPJobBoard.UI.Models
 {
@@ -70,6 +71,7 @@ namespace FPJobBoard.UI.Models
         public string LastName { get; set; }
         [Required]
         [Display(Name ="Resume")]
+        [DataType(DataType.Upload)]
         public string ResumeFileName { get; set; }
         [Required]
         [EmailAddress]
@@ -86,6 +88,16 @@ namespace FPJobBoard.UI.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        //public RegisterViewModel(string firstName, string lastName, HttpPostedFileBase resumeFileName, string email, string password, string confirmPassword )
+        //{
+        //    FirstName = firstName;
+        //    LastName = lastName;          
+        //    Email = email;
+        //    Password = password;
+        //    ConfirmPassword = confirmPassword;
+        //    ResumeFileName = resumeFileName.FileName;
+        //}
     }
 
     public class ResetPasswordViewModel

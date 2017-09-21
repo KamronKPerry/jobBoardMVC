@@ -17,8 +17,6 @@ namespace FPJobBoard.DATA//.Metadata
             get { return _applicationDate; }// == DateTime.Now) ? DateTime.Now : _applicationDate; }
             set { _applicationDate = value; }
         }
-
-
         [Display(Name ="Position")]
         public int OpenPositionID { get; set; }
         [Display(Name ="Applicant")]

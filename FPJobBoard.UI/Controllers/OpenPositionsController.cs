@@ -8,9 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using FPJobBoard.DATA;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity.EntityFramework;
+using FPJobBoard.UI.Models;
 
 namespace FPJobBoard.UI.Controllers
 {
+    [Authorize]
     public class OpenPositionsController : Controller
     {
         private FPJobBoardEntities db = new FPJobBoardEntities();
@@ -151,7 +155,21 @@ namespace FPJobBoard.UI.Controllers
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Title", openPosition.PositionID);
             return View(openPosition);
         }
-
+        public ActionResult Apply(int? id)
+        {
+            var user = User.Identity.GetUserId();
+            var userManager = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var theUser = userManager.FindById(user);
+            Application application = new Application();
+            application.UserID = theUser.Id;
+            
+            application.OpenPositionID = id.Value;
+            application.ResumeFilename = theUser.ResumeFileName;
+            db.Applications.Add(application);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        
         // GET: OpenPositions/Delete/5
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult Delete(int? id)

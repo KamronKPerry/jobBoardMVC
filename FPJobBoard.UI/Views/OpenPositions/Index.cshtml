@@ -45,10 +45,9 @@
                 @Html.DisplayFor(modelItem => item.Position.Title)
             </td>
             <td>
-                
-                @Html.ActionLink("Apply", "Details", new { id = item.OpenPositionID })
+                @Html.ActionLink("Apply","Apply", new {id= item.OpenPositionID }, new {@class="btn btn-success" })
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                {@:|
+                {@Html.ActionLink("Details", "Details", new { id = item.OpenPositionID })@:|
                 @Html.ActionLink("Edit", "Edit", new { id = item.OpenPositionID }) @:|
                 @Html.ActionLink("Delete", "Delete", new { id = item.OpenPositionID })}
             </td>

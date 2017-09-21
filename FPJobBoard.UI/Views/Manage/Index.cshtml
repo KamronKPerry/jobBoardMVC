@@ -7,8 +7,17 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div class="row">
     <div class="col-md-8">
+       
+    @*@using (Html.BeginForm("NewResume", "Manage", FormMethod.Post, new { @enctype = "form-data", @class = "form-horizontal", role = "form" }))
+            {
+        <input type="file" name="ResumeFileName" />
+                <input type="submit" class="btn btn-default" value="Upload" />
+    }*@
+
+
         <p>
-            @if (Model.HasPassword)
+            @try {
+            if (Model.HasPassword)
             {
                 @Html.ActionLink("Change your password", "ChangePassword")
             }
@@ -16,60 +25,71 @@
             {
                 @Html.ActionLink("Pick a password", "SetPassword")
             }
-        </p>
-        <p>
-            Phone Number: @(Model.PhoneNumber ?? "None") [
-            @if (Model.PhoneNumber != null)
+            }
+            catch
             {
-                @Html.ActionLink("Change", "AddPhoneNumber")
-                @: &nbsp;|&nbsp;
-                @Html.ActionLink("Remove", "RemovePhoneNumber")
+
+            }
+        </p>
+
+
+        @if (User.IsInRole("Admin"))
+        {
+            <p>
+                Phone Number: @(Model.PhoneNumber ?? "None") [
+                @if (Model.PhoneNumber != null)
+                {
+                    @Html.ActionLink("Change", "AddPhoneNumber")
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink("Remove", "RemovePhoneNumber")
+                }
+                else
+                {
+                    @Html.ActionLink("Add", "AddPhoneNumber")
+                }
+                ]
+            </p>
+            <p>
+                External Logins: @Model.Logins.Count
+                @Html.ActionLink("[Manage]", "ManageLogins")
+            </p>
+
+            if (Model.TwoFactor)
+            {
+                <form method="post" action="/Manage/DisableTFA">
+                    <p>
+                        Two factor is currently enabled:
+                        <input type="submit" value="Disable" class="btn btn-default" />
+                    </p>
+                </form>
             }
             else
             {
-                @Html.ActionLink("Add", "AddPhoneNumber")
+                <form method="post" action="/Manage/EnableTFA">
+                    <p>
+                        Two factor is currently disabled:
+                        <input type="submit" value="Enable" class="btn btn-default" />
+                    </p>
+                </form>
             }
-            ]
-        </p>
-        <p>
-            External Logins: @Model.Logins.Count
-            @Html.ActionLink("[Manage]", "ManageLogins")
-        </p>
-        @if (Model.TwoFactor)
-        {
-            <form method="post" action="/Manage/DisableTFA">
-                <p>
-                    Two factor is currently enabled:
-                    <input type="submit" value="Disable" class="btn btn-default"/>
-                </p>
-            </form>
-        }
-        else
-        {
-            <form method="post" action="/Manage/EnableTFA">
-                <p>
-                    Two factor is currently disabled:
-                    <input type="submit" value="Enable" class="btn btn-default"/>
-                </p>
-            </form>
-        }
-        @if (Model.BrowserRemembered)
-        {
-            <form method="post" action="/Manage/ForgetBrowser">
-                <p>
-                    Browser is curently remembered for two factor:
-                    <input type="submit" value="Forget Browser" class="btn btn-default" />
-                </p>
-            </form>
-        }
-        else
-        {
-            <form method="post" action="/Manage/RememberBrowser">
-                <p>
-                    Browser is curently not remembered for two factor:
-                    <input type="submit" value="Remember Browser" class="btn btn-default"/>
-                </p>
-            </form>
+            if (Model.BrowserRemembered)
+            {
+                <form method="post" action="/Manage/ForgetBrowser">
+                    <p>
+                        Browser is curently remembered for two factor:
+                        <input type="submit" value="Forget Browser" class="btn btn-default" />
+                    </p>
+                </form>
+            }
+            else
+            {
+                <form method="post" action="/Manage/RememberBrowser">
+                    <p>
+                        Browser is curently not remembered for two factor:
+                        <input type="submit" value="Remember Browser" class="btn btn-default" />
+                    </p>
+                </form>
+            }
         }
     </div>
 </div>

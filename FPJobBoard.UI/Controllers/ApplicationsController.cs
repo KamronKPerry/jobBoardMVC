@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using FPJobBoard.DATA;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet;
 
 
 namespace FPJobBoard.UI.Controllers
@@ -62,7 +65,7 @@ namespace FPJobBoard.UI.Controllers
         public ActionResult Create()
         {
             var user = User.Identity.GetUserId();
-
+            
             ViewBag.OpenPositionID = new SelectList(db.OpenPositions, "OpenPositionID", "PositionName");
             ViewBag.UserID = new SelectList(db.AspNetUsers.Where(y => y.Id == user), "Id", "FullName");
             return View(new Application());
@@ -75,8 +78,10 @@ namespace FPJobBoard.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ApplicationID,OpenPositionID,UserID,ApplicationDate,ManagerNotes,IsDeclined,ResumeFilename")] Application application)
         {
-            var user = User.Identity.GetUserId();
-
+           var user = User.Identity.GetUserId();
+           // var applicant = ;
+            //application.ResumeFilename = applicant.ToString();
+                //from r in db.AspNetUsers where r.
             if (ModelState.IsValid)
             {
                 application.ApplicationDate = DateTime.Now;

@@ -14,8 +14,8 @@
         @Styles.Render("~/Content/css")
 </head>
 <body>
-    <div class="tagline-upper text-center text-heading text-shadow text-white mt-5 d-none d-lg-block">@ViewBag.Head</div>
-    <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white mb-5 d-none d-lg-block"><i>Tea Tea</i></div>
+    <div class="tagline-upper text-center text-heading text-shadow text-white d-none d-lg-block">@ViewBag.Head</div>
+    <div class="tagline-lower text-center text-expanded text-shadow text-uppercase text-white d-none d-lg-block"><i>Tea Tea</i></div>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-faded py-lg-4">
         <div class="container">
@@ -24,7 +24,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item active px-lg-4">
+                    <li class="nav-item px-lg-4">
                         @Html.ActionLink("Home","Index","Home",null, new { @class = "nav-link text-uppercase text-expanded" })
                         @*<a class="nav-link text-uppercase text-expanded" href="@Url.Action("Index","Home")">
                             Home*@
@@ -67,7 +67,10 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
+        
     </div>
+    <div class="clearfix"></div>
+    <br />
         <footer class="bg-faded text-center">
             <div class="container">
                 <p class="text-uppercase text-expanded">&copy; @DateTime.Now.Year - KPerry</p>

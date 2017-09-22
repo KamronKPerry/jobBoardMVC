@@ -1,15 +1,12 @@
 ﻿@model FPJobBoard.DATA.Application
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Application for " + Model.OpenPosition.PositionName;
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Application</h4>
-    <hr />
-    <dl class="dl-horizontal">
+<div class="bootstrapFlexSux bg-faded">
+    <h4 class="mt-3">@ViewBag.Title</h4>
+    <dl class="dl-horizontal bg-faded bootstrapFlexSux p-3">
         <dt>
             @Html.DisplayNameFor(model => model.ApplicationDate)
         </dt>
@@ -17,50 +14,64 @@
         <dd>
             @Html.DisplayFor(model => model.ApplicationDate)
         </dd>
+        @if (Model.ManagerNotes != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.ManagerNotes)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ManagerNotes)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ManagerNotes)
+            </dd>
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.ManagerNotes)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.IsDeclined)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.IsDeclined)
+            @if (Model.IsDeclined)
+            {
+                @:Declined
+            }
+            else
+            {
+                @:Open
+            }
+            @*@Html.DisplayFor(model => model.IsDeclined)*@
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.ResumeFilename)
         </dt>
-
+        @* TODO: Link to resume popup *@
         <dd>
             @Html.DisplayFor(model => model.ResumeFilename)
         </dd>
 
+        @*<dt>
+                @Html.DisplayNameFor(model => model.OpenPosition.OpenPositionID)
+            </dt>*@
+
+        @*<dd>
+                @Html.DisplayFor(model => model.OpenPosition.PositionName)
+            </dd>*@
+
         <dt>
-            @Html.DisplayNameFor(model => model.OpenPosition.OpenPositionID)
+            @Html.DisplayNameFor(model => model.AspNetUser.FullName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OpenPosition.OpenPositionID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AspNetUser.FirstName)
+            @Html.DisplayFor(model => model.AspNetUser.FullName)
         </dd>
 
     </dl>
+    <p>
+        @if (User.IsInRole("Admin,Manager"))
+        {
+            @Html.ActionLink("Leave a Comment", "Edit", new { id = Model.ApplicationID }) @:|
+    }
+        @Html.ActionLink("Back to Applications", "Index",null, new { @class = "btn btn-primary" })
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ApplicationID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

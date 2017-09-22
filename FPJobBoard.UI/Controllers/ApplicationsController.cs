@@ -96,6 +96,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: Applications/Edit/5
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -117,6 +118,7 @@ namespace FPJobBoard.UI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin,Manager")]
         public ActionResult Edit([Bind(Include = "ApplicationID,OpenPositionID,UserID,ApplicationDate,ManagerNotes,IsDeclined,ResumeFilename")] Application application)
         {
             if (ModelState.IsValid)
@@ -131,6 +133,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: Applications/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)

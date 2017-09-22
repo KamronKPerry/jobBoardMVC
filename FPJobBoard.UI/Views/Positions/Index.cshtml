@@ -3,38 +3,53 @@
 @{
     ViewBag.Title = "Positions";
 }
+<div class="bg-faded bootstrapFlexSux tidyEdges">
+    <h2><strong>@ViewBag.Title</strong></h2>
 
-<h2><strong>@ViewBag.Title</strong></h2>
 
-<p>
-    <strong>
-        @Html.ActionLink("New Position", "Create", "Positions", null, new { @class = "table-text" })
-    </strong></p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.JobDescription)
-        </th>
-        <th></th>
-    </tr>
+    @if (User.IsInRole("Admin"))
+    {<p>
+        <strong>
+            @Html.ActionLink("New Position", "Create", "Positions", null, new { @class = "table-text" })
+        </strong>
+    </p>
+    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobDescription)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PositionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PositionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PositionID })
-        </td>
-    </tr>
-}
+    <table class="table bg-faded">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobDescription)
+            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th></th>
 
-</table>
+            }
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobDescription)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PositionID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.PositionID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.PositionID })
+                    </td>
+                }
+
+            </tr>
+        }
+
+    </table>
+</div>

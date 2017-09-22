@@ -1,63 +1,58 @@
 ﻿@model IEnumerable<FPJobBoard.DATA.Application>
 
+<div class="bg-faded bootstrapFlexSux tidyEdges">
+    <h2 class="mt-3"><strong>@ViewBag.Title</strong></h2>
+    <table class="table">
+        <tr class="bg-faded">
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeclined)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpenPosition.PositionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AspNetUser.FullName)
+            </th>
+            <th></th>
+        </tr>
 
-<h2><strong>@ViewBag.Title</strong></h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ManagerNotes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsDeclined)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ResumeFilename)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OpenPosition.PositionName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.FullName)
-        </th>
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr class="bg-faded">
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationDate)
+                </td>
+                <td>
+                    @* TODO: Words Deckined/In review instead of checkbox *@
+                    @if (item.IsDeclined)
+                    {
+                        @:Declined
+                    }
+                    else
+                    {
+                        @:Open
+                    }
+                @*@Html.DisplayFor(modelItem => item.IsDeclined)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpenPosition.PositionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUser.FullName)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit Application", "Edit", new { id = item.ApplicationID }, new { @class = "btn btn-warning" })*@
+                @Html.ActionLink("View Application", "Details", new { id = item.ApplicationID }, new { @class = "btn btn-primary" })
+                @if (!User.IsInRole("Manager"))
+                {
+                    @Html.ActionLink("Delete Application", "Delete", new { id = item.ApplicationID }, new { @class = "btn btn-danger" })
+                }
+            </td>
+        </tr>
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ManagerNotes)
-        </td>
-        <td>@* TODO: Words Deckined/In review instead of checkbox *@
-           @Html.DisplayFor(modelItem => item.IsDeclined)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ResumeFilename)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OpenPosition.PositionName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.FullName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicationID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ApplicationID })
-            @if (!User.IsInRole("Manager"))
-            {
-            @:|
-            @Html.ActionLink("Delete", "Delete", new { id = item.ApplicationID })
-            } 
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+</div>

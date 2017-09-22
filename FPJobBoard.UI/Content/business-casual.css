@@ -11,8 +11,8 @@ body {
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-    color:white;
-    text-shadow:1px 1px 1px grey;
+    color:rgb(255, 255, 255);
+    text-shadow:1px 1px 2px black;
     font-size: calc(.26vw + .36vh + 1vmin);
 }
 
@@ -28,11 +28,16 @@ h1 {
   font-size: 5rem;
   font-weight: 700;
   line-height: 1;
+  margin-top:3%;
+  margin-bottom:.5%;
+
 }
 
 .tagline-lower {
   font-size: 1.2rem;
   line-height: 1;
+  margin-bottom:3%;
+
 }
 
 .text-expanded {
@@ -49,6 +54,14 @@ h1 {
 
 .bg-faded {
   background-color: rgba(255, 255, 255, 0.9);
+  
+}
+div .bg-faded{
+  border-radius:2em;
+
+}
+.tidyEdges{
+    overflow:hidden;
 }
 
 .bg-overlay {
@@ -74,6 +87,9 @@ hr.divider {
     display:flex;
     flex-direction: column;
     visibility: visible;
+}
+li.nav-item a.nav-link{
+    color: rgb(255,255,255) !important;
 }
 .nav-item{
     width:50%;
@@ -117,12 +133,38 @@ li.login-hover form ul li{
     width:100%;    
 }
 footer div p {
-    color:rgba(0, 0, 0, 0.5);
     margin:auto;
 } 
 footer{
+    position:fixed;
+    bottom: 0;
+    width:100%;
     padding:1em;
 }
 li form.navbar-right{
     width:125%;
+}
+.img-fluid{
+    border-radius:2em;
+}
+.bootstrapFlexSux{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    align-content:center;
+    justify-content:center;
+    margin-top:3%;
+}
+.form-item-width div.form-horizontal{
+    width:50%;
+    margin-top:2%
+}
+div.form-group div input, div.form-group textarea{
+    border-radius:1em;
+}
+.bg-faded div.form-group div input, .bg-faded div.form-group textarea{
+    box-shadow: 0px 0px 3px rgb(0,0,0)
+}
+li.nav-item a.nav-link:hover{
+    color: rgb(50, 50, 50) !important;
 }

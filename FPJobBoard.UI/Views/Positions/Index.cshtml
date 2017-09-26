@@ -4,52 +4,39 @@
     ViewBag.Title = "Positions";
 }
 <div class="bg-faded bootstrapFlexSux tidyEdges">
-    <h2><strong>@ViewBag.Title</strong></h2>
+    <h2 class="mt-3"><strong>@ViewBag.Title</strong></h2>
 
 
     @if (User.IsInRole("Admin"))
     {<p>
         <strong>
-            @Html.ActionLink("New Position", "Create", "Positions", null, new { @class = "table-text" })
+            @Html.ActionLink("Create A New Position", "Create", "Positions", null, new { @class = "btn btn-success round-edges" })
         </strong>
     </p>
     }
-
-    <table class="table bg-faded">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobDescription)
-            </th>
-            @if (User.IsInRole("Admin"))
-            {
-                <th></th>
-
-            }
-        </tr>
-
+    <div class="rowFlexData m-2">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
+            <dl class="bg-faded dataFlex m-2 p-2 pl-3">
+                <dt>
+                    <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
+                </dt>
+                <dt>
                     @Html.DisplayFor(modelItem => item.JobDescription)
-                </td>
+                </dt>
+
+
                 @if (User.IsInRole("Admin"))
                 {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.PositionID }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.PositionID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.PositionID })
-                    </td>
+                    <dt class="buttons-box">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PositionID }, new { @class = "btn btn-primary mr-2 round-edges" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.PositionID }, new { @class = "btn btn-danger ml-2 round-edges" })
+                    </dt>
+
                 }
 
-            </tr>
+            </dl>
         }
+    </div>
 
-    </table>
 </div>

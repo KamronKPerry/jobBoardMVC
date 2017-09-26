@@ -1,76 +1,71 @@
 ﻿@model FPJobBoard.DATA.Application
-
 @{
-    ViewBag.Title = "Edit Your Application";
+    if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+    {
+        ViewBag.Title = "Leave a Comment";
+
+    }
 }
 
-<h2>@ViewBag.Title</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Application</h4>
-        <hr />
+
+    <div class="bg-faded bootstrapFlexSux p-3">
+        <h2>@ViewBag.Title</h2>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ApplicationID)
+        @Html.HiddenFor(model => model.OpenPositionID)
+        @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.ResumeFilename)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.OpenPositionID, "OpenPositionID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("OpenPositionID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OpenPositionID, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @Html.HiddenFor(model=>model.ApplicationDate)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ManagerNotes, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ManagerNotes, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ManagerNotes, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsDeclined, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsDeclined)
-                    @Html.ValidationMessageFor(model => model.IsDeclined, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.OpenPositionID, "OpenPositionID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("OpenPositionID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OpenPositionID, "", new { @class = "text-danger" })
                 </div>
             </div>
-        </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @Html.HiddenFor(model => model.ApplicationDate)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ResumeFilename, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ResumeFilename, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ResumeFilename, "", new { @class = "text-danger" })
-            </div>
+
+            @Html.TextAreaFor(model => model.ManagerNotes, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ManagerNotes, "", new { @class = "text-danger" })
         </div>
 
+        <div class="mb-3">
+            @Html.CheckBoxFor(model => model.IsDeclined, new { @Id = "toggle-one" })
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.ResumeFilename, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ResumeFilename, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ResumeFilename, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+            <input type="submit" value="Save" class="btn btn-success round-edges mr-2" />
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-warning round-edges ml-2" })
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {

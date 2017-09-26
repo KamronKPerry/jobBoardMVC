@@ -27,6 +27,7 @@ namespace FPJobBoard.UI
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-grid.css",
                       "~/Content/bootstrap-reboot.css",
+                      "~/Content/bootstrap-toggle.css",
                       "~/Content/business-casual.css"));
 
         }

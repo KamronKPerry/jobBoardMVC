@@ -38,17 +38,17 @@
                             <li class="nav-item px-lg-4">@Html.ActionLink("Locations","Index","Locations",null, new { @class = "nav-link text-uppercase text-expanded" })</li>
                             <li class="nav-item px-lg-4">@Html.ActionLink("Positions", "Index", "Positions", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
                             <li class="nav-item px-lg-4">@Html.ActionLink("Applications", "Index", "Applications", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
-                            <li class="nav-item px-lg-4">@Html.ActionLink("Open Positions", "Index", "OpenPositions", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
+                            <li class="nav-item px-lg-4 openPositions">@Html.ActionLink("Open Positions", "Index", "OpenPositions", null, new { @class = "nav-link text-uppercase text-expanded" })</li>
                         </ul>
                     </li>
                     @*<li class="nav-item px-lg-4">
                         @Html.ActionLink("Blog","Blog","Home",null, new { @class = "nav-link text-uppercase text-expanded" })
                         <a class="nav-link text-uppercase text-expanded" href="blog.html">Blog</a>
                     </li>*@
-                    <li class="nav-item px-lg-4">
+                    @*<li class="nav-item px-lg-4">*@
                         @Html.ActionLink("Contact","Contact","Home",null, new { @class = "nav-link text-uppercase text-expanded" })
                         @*<a class="nav-link text-uppercase text-expanded" href="@Url.Action("Contact","Home")">Contact</a>*@
-                    </li>
+                    @*</li>*@
                     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                     {
                         <li class="nav-item px-lg-4 nav-link text-uppercase text-expanded nav-hover"> Admin
@@ -82,6 +82,15 @@
         @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap-toggle.js"></script>
+    <script>
+    $(function(){
+        $('#toggle-one').bootstrapToggle({
+        on: 'Rejected',
+        off: 'Open'
+        });
+        })
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

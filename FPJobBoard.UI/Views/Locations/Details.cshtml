@@ -1,15 +1,14 @@
 ﻿@model FPJobBoard.DATA.Location
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Location Information";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Location</h4>
-    <hr />
-    <dl class="dl-horizontal">
+<div class="bg-faded bootstrapFlexSux m-3">
+    <div class="bg-faded bootstrapFlexSux m-3 p-3">
+        <h4><strong>@ViewBag.Title</strong></h4>
+    <dl class="bootstrapFlexSux">
         <dt>
             @Html.DisplayNameFor(model => model.StoreNumber)
         </dt>
@@ -35,16 +34,17 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+            @Html.DisplayNameFor(model => model.ManagerID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AspNetUser.FirstName)
+            @Html.DisplayFor(model => model.AspNetUser.FullName)
         </dd>
-
     </dl>
+        <div>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.LocationID }, new { @class = "btn btn-warning round-edges mr-2" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary round-edges ml-2" })
+        </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.LocationID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+</div>
+

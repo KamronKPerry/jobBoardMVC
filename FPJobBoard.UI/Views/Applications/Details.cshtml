@@ -65,13 +65,12 @@
         <dd>
             @Html.DisplayFor(model => model.AspNetUser.FullName)
         </dd>
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            @Html.ActionLink("Leave a Comment", "Edit", new { id = Model.ApplicationID }, new { @class = "btn btn-success round-edges mb-2" })
+        }
+        @Html.ActionLink("Back to Applications", "Index", null, new { @class = "btn btn-primary round-edges mt-2" })
+
 
     </dl>
-    <p>
-        @if (User.IsInRole("Admin,Manager"))
-        {
-            @Html.ActionLink("Leave a Comment", "Edit", new { id = Model.ApplicationID }) @:|
-    }
-        @Html.ActionLink("Back to Applications", "Index",null, new { @class = "btn btn-primary" })
-    </p>
 </div>

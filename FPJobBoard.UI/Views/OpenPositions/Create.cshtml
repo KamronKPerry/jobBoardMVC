@@ -4,52 +4,39 @@
     ViewBag.Title = "New Position";
 }
 
-<h2><strong>@ViewBag.Title</strong></h2>
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PositionID, "Position", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PositionID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PositionID, "", new { @class = "text-danger" })
-            </div>
+    <div class="bootstrapFlexSux bg-faded">
+        <div class="bootstrapFlexSux bg-faded m-2 p-3">
+    <h2 class="mt-3"><strong>@ViewBag.Title</strong></h2>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.PositionID, "Position", htmlAttributes: new { @class = "control-label" })
+    <div>
+        @Html.DropDownList("PositionID", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PositionID, "", new { @class = "text-danger" })
+    </div>
+    @Html.LabelFor(model => model.LocationID, "Location", htmlAttributes: new { @class = "control-label" })
+    <div>
+        @Html.DropDownList("LocationID", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LocationID, "", new { @class = "text-danger" })
+    </div>
+    @Html.LabelFor(model => model.IsOpen, htmlAttributes: new { @class = "control-label" })
+        <div class="checkbox">
+            @Html.EditorFor(model => model.IsOpen)
+            @Html.ValidationMessageFor(model => model.IsOpen, "", new { @class = "text-danger" })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LocationID, "Location", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("LocationID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.LocationID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsOpen, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsOpen)
-                    @Html.ValidationMessageFor(model => model.IsOpen, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <div>
+        <input type="submit" value="Create" class="btn btn-success round-edges" />
+        @Html.ActionLink("Back to List", "Index", null, new { @class="btn btn-warning round-edges"})
+    </div>
+</div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

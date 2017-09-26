@@ -158,6 +158,21 @@ namespace FPJobBoard.UI.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Toggle(int? id)
+        {
+            Application application = db.Applications.Find(id);
+            if (application.IsDeclined)
+            {
+            application.IsDeclined = false;
+
+            }
+            else
+            {
+                application.IsDeclined = true;
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -167,5 +182,7 @@ namespace FPJobBoard.UI.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

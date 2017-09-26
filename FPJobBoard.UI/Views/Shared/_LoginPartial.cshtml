@@ -1,19 +1,19 @@
-﻿@using Microsoft.AspNet.Identity
-@using FPJobBoard.UI.Models
+﻿@using FPJobBoard.UI.Models
 @using Microsoft.AspNet.Identity.Owin;
 @using Microsoft.AspNet.Identity;
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right loginFlex" }))
     {
+        <li>
         @Html.AntiForgeryToken()
-        
-            @Html.ActionLink("Hello " + HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId()).FirstName + " " + HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId()).LastName + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link text-uppercase text-expanded" })
-        <ul class="bg-faded">
+            @Html.ActionLink("Hello " + HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId()).FirstName + " " + HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId()).LastName + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link text-uppercase text-expanded loginName" })
+</li>
+        @*<ul class="bg-faded">*@
             <li class="nav-item px-lg-4">
                 <a class="nav-link text-uppercase text-expanded" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
             </li>
-        </ul>
+        @*</ul>*@
     }
 }
 else

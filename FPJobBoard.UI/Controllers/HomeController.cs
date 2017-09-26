@@ -29,7 +29,7 @@ namespace FPJobBoard.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult /*Contact*/Index(ContactViewModel contact)
+        public ActionResult Contact(ContactViewModel contact)
         {
 
             if (ModelState.IsValid)
@@ -77,7 +77,7 @@ namespace FPJobBoard.UI.Controllers
                 //return null;
                 return View("ContactConfirmation", contact);
             }
-            return View(contact);
+            return View("Contact",contact);
 
         }
     }

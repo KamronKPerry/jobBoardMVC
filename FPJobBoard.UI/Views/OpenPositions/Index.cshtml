@@ -1,59 +1,66 @@
 ﻿@model IEnumerable<FPJobBoard.DATA.OpenPosition>
 @using Microsoft.AspNet.Identity;
-<div class="bg-faded bootstrapFlexSux tidyEdges">
-    <h2 class="mt-3"><strong>@ViewBag.Title</strong></h2>
+<div class="bg-faded bootstrapFlexSux tidyEdges p-3">
+    <h2><strong>@ViewBag.Title</strong></h2>
     @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
     {
         <p>
-            @Html.ActionLink("Create New", "Create")
+            @Html.ActionLink("Create An Open Position", "Create", null, new { @class = "btn btn-success round-edges" })
         </p>
     }
-
-    <table class="table bootstrapFlexSux bg-faded">
-        <tr>
-            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.IsOpen)
-                </th>}
-            <th>
-                @Html.DisplayNameFor(model => model.Location.LocationName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position.Title)
-            </th>
-            @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-            {
-                <th></th>
-            }
-
-        </tr>
-
+    <div class="rowFlexData p-2">
+        <span class="text-danger">@ViewBag.Message</span>
         @foreach (var item in Model)
         {
-            <tr>
+
+
+            <dl class="dataFlex bg-faded m-2 p-3">
+                <dt class="m-1">
+                    @Html.DisplayFor(modelItem => item.Position.Title)
+                </dt>
+                <dt class="m-1">
+                    @Html.DisplayFor(modelItem => item.Location.LocationName)
+                </dt>
                 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
                 {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsOpen)
-                    </td>
-                }
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location.LocationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Position.Title)
-                </td>
-                <td>
-                    @Html.ActionLink("Apply", "Apply", new { id = item.OpenPositionID }, new { @class = "btn btn-success" })
-                    @Html.ActionLink("Details", "Details", new { id = item.OpenPositionID }, new { @class = "btn btn-primary" })
-                    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-                    {   @Html.ActionLink("Edit", "Edit", new { id = item.OpenPositionID }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.OpenPositionID }, new { @class = "btn btn-danger" })}
-                    </td>
-                </tr>
+                    if (item.IsOpen)
+                    {
+                        <dt class="bg-success p-1 pl-5 pr-5 round-edges">
+                            Hiring
+                        </dt>
+                    }
+                    else
+                    {
+                        <dt class="bg-warning p-1 pl-5 pr-5 round-edges">
+                            Closed
+                        </dt>
                     }
 
-                </table>
-            </div>
+                }
+                <dt class="buttons-box allPosButtons">
+                    @if (User.IsInRole("Employee"))
+                    {
+                        @Html.ActionLink("Apply", "Apply", new { id = item.OpenPositionID }, new { @class = "btn btn-success round-edges mb-2 mt-2" })
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                    {
+                        if (item.IsOpen)
+                        {
+                            @Html.ActionLink("Close", "Toggle", new { id = item.OpenPositionID }, new { @class = "btn btn-warning round-edges mt-2" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Open", "Toggle", new { id = item.OpenPositionID }, new { @class = "btn btn-success round-edges mt-2" })
+                        }
+                    }
+
+
+
+
+                    @Html.ActionLink("Details", "Details", new { id = item.OpenPositionID }, new { @class = "btn btn-primary round-edges mb-2 mt-2" })
+                </dt>
+            </dl>
+        }
+    </div>
+</div>

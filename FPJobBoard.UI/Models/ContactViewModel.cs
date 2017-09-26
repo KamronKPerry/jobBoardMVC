@@ -19,11 +19,11 @@ namespace FPJobBoard.UI.Models
         [Required(ErrorMessage = "* Required")]
         [Display(Name = "Email Address")]
         [RegularExpression(@"^((([!#$%&'*+\-/=?^_`{|}~\w])|([!#$%&'*+\-/=?^_`{|}~\w][!#$%&'*+\-/=?^_`{|}~\.\w]{0,}[!#$%&'*+\-/=?^_`{|}~\w]))[@]\w+([-.]\w+)*\.\w+([-.]\w+)*)$",
-            ErrorMessage = " * Check your format")]
+            ErrorMessage = "* Sorry this email format is not accepted")]
         public string Email { get; set; }
 
         [Display(Name = "Subject")]
-        [StringLength(50, ErrorMessage = "*Subject cannot exceed 50 characters")]
+        [StringLength(50, ErrorMessage = "* Subject cannot exceed 50 characters")]
         public string Subject { get; set; }
 
         [Required(ErrorMessage = "* Required")]

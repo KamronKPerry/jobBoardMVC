@@ -81,7 +81,8 @@ namespace FPJobBoard.UI.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ManagerID = new SelectList(db.AspNetUsers, "Id", "FullName", location.ManagerID);
+            var managerUsers = from u in db.AspNetUsers where u.AspNetRoles.Any(r => r.Name == "Manager") select u;
+            ViewBag.ManagerID = new SelectList(managerUsers, "Id", "FullName");
             return View(location);
         }
 
@@ -99,7 +100,8 @@ namespace FPJobBoard.UI.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ManagerID = new SelectList(db.AspNetUsers, "Id", "FullName", location.ManagerID);
+            var managerUsers = from u in db.AspNetUsers where u.AspNetRoles.Any(r => r.Name == "Manager") select u;
+            ViewBag.ManagerID = new SelectList(managerUsers, "Id", "FullName");
             return View(location);
         }
 

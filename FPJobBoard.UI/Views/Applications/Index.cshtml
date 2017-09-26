@@ -45,10 +45,24 @@
             </td>
             <td>
                 @*@Html.ActionLink("Edit Application", "Edit", new { id = item.ApplicationID }, new { @class = "btn btn-warning" })*@
-                @Html.ActionLink("View Application", "Details", new { id = item.ApplicationID }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("View Application", "Details", new { id = item.ApplicationID }, new { @class = "btn btn-primary round-edges mr-2" })
+                @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+                {
+                    if (!item.IsDeclined)
+                    {
+                        @Html.ActionLink("Reject", "Toggle", new { id = item.ApplicationID }, new { @class = "btn btn-warning round-edges ml-2 mr-2" })
+
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Open", "Toggle", new { id = item.ApplicationID }, new { @class = "btn btn-warning round-edges ml-2 mr-2" })
+
+                    }
+                        @*@Html.ActionLink("Add Comment", "Comment", new { id = item.ApplicationID }, new { @class="btn btn-success round-edges"})*@
+                }
                 @if (!User.IsInRole("Manager"))
                 {
-                    @Html.ActionLink("Delete Application", "Delete", new { id = item.ApplicationID }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Delete Application", "Delete", new { id = item.ApplicationID }, new { @class = "btn btn-danger round-edges ml-2" })
                 }
             </td>
         </tr>

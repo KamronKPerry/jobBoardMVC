@@ -165,8 +165,9 @@ namespace FPJobBoard.UI.Controllers
                         }
                         else
                         {
-                            throw new InvalidFileTypeException("Invalid file type uploaded. Only .pdf files are allowed.");
+                            ViewBag.Message = "Invalid file type, only .pdf files are allowed.";
 
+                            throw new InvalidFileTypeException("Invalid file type uploaded. Only .pdf files are allowed.");
                         }
                     }
                     //NOTE: Added First&Last Name for register user creation
@@ -187,7 +188,7 @@ namespace FPJobBoard.UI.Controllers
                 return View(model);
             }catch (InvalidFileTypeException ex)
             {
-                ViewBag.Message = "Invalid file upload attempted";
+                ViewBag.Message = "Invalid file upload attempted .pdf files only.";
             }
             catch (Exception ex)
             {

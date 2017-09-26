@@ -22,6 +22,7 @@ namespace FPJobBoard.DATA//.Metadata
         [StringLength(2,ErrorMessage ="*Max 2 Characters")]
         public string State { get; set; }
         [Required(ErrorMessage = "*Required")]
+        [Display(Name ="Manager")]
         public string ManagerID { get; set; }
 
 

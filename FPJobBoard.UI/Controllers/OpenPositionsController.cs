@@ -29,11 +29,11 @@ namespace FPJobBoard.UI.Controllers
                 var locationPositions = (db.OpenPositions.Include(y => y.Location).Include(y => y.Position)).Where(y => y.Location.ManagerID == user);
                 return View(locationPositions.ToList());
             }
-            else if(User.IsInRole("Admin"))
+            else if (User.IsInRole("Admin"))
             {
                 ViewBag.Title = "All Positions";
-            var allPositions = db.OpenPositions.Include(o => o.Location).Include(o => o.Position);
-            return View(allPositions.ToList());
+                var allPositions = db.OpenPositions.Include(o => o.Location).Include(o => o.Position);
+                return View(allPositions.ToList());
 
             }
             ViewBag.Title = "Available Positions";
@@ -57,7 +57,7 @@ namespace FPJobBoard.UI.Controllers
         }
 
         // GET: OpenPositions/Create
-        [Authorize(Roles ="Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public ActionResult Create()
         {
             var id = User.Identity.GetUserId();
@@ -66,8 +66,10 @@ namespace FPJobBoard.UI.Controllers
             {
                 ViewBag.LocationID = new SelectList(locations, "LocationID", "LocationName");
             }
-            else { 
-            ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");}
+            else
+            {
+                ViewBag.LocationID = new SelectList(db.Locations, "LocationID", "LocationName");
+            }
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Title");
             return View();
         }
@@ -155,6 +157,7 @@ namespace FPJobBoard.UI.Controllers
             ViewBag.PositionID = new SelectList(db.Positions, "PositionID", "Title", openPosition.PositionID);
             return View(openPosition);
         }
+        [Authorize(Roles = "Employee")]
         public ActionResult Apply(int? id)
         {
             var user = User.Identity.GetUserId();
@@ -162,14 +165,22 @@ namespace FPJobBoard.UI.Controllers
             var theUser = userManager.FindById(user);
             Application application = new Application();
             application.UserID = theUser.Id;
-            
+            application.ApplicationDate = DateTime.Now;
             application.OpenPositionID = id.Value;
-            application.ResumeFilename = theUser.ResumeFileName;
+            if (theUser.ResumeFileName != null)
+            {
+                application.ResumeFilename = theUser.ResumeFileName;
+
+            }
+            else
+            {
+                application.ResumeFilename = "nofile.pdf";
+            }
             db.Applications.Add(application);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Applications");
         }
-        
+
         // GET: OpenPositions/Delete/5
         [Authorize(Roles = "Admin,Manager")]
         public ActionResult Delete(int? id)
@@ -197,7 +208,22 @@ namespace FPJobBoard.UI.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize(Roles = "Admin,Manager")]
+        public ActionResult Toggle(int? id)
+        {
+            OpenPosition openPosition = db.OpenPositions.Find(id);
+            if (openPosition.IsOpen)
+            {
+                openPosition.IsOpen = false;
+                db.SaveChanges();
+            }
+            else
+            {
+                openPosition.IsOpen = true;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -206,5 +232,9 @@ namespace FPJobBoard.UI.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }
+
+
+
